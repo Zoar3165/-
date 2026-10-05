@@ -1,0 +1,181 @@
+# Decap CMS – עריכת פרטי האתר (כתובת, אנשי קשר, תרומות, מיקום לחישוב זמנים)
+# הגישה: Netlify Identity במצב Invite only + Git Gateway. אין סיסמאות או מפתחות בקובץ זה.
+backend:
+  name: git-gateway
+  branch: main
+locale: he
+media_folder: assets/uploads   # תיקיית העלאת תמונות וקבצים
+public_folder: assets/uploads
+publish_mode: simple
+collections:
+  - name: settings
+    label: הגדרות האתר
+    editor: { preview: false }
+    files:
+      - name: settings
+        label: פרטי בית הכנסת
+        file: assets/data/settings.json
+        format: json
+        fields:
+          - { name: address, label: כתובת, widget: string }
+          - { name: mapsQuery, label: "חיפוש במפות (ריק = ללא כפתורי ניווט)", widget: string, required: false }
+          - name: contacts
+            label: אנשי קשר
+            widget: list
+            fields:
+              - { name: name, label: שם, widget: string }
+              - { name: role, label: תפקיד, widget: string, required: false }
+              - { name: phone, label: "טלפון (לתצוגה)", widget: string, pattern: ['^[0-9+\- ]{7,20}$', "מספר טלפון בלבד"] }
+              - { name: intl, label: "טלפון בינלאומי (972...)", widget: string, pattern: ['^972[0-9]{8,9}$', "לדוגמה 972501234567"] }
+              - { name: whatsapp, label: זמין בוואטסאפ, widget: boolean, default: false }
+          - name: donate
+            label: תרומות
+            widget: object
+            fields:
+              - name: bit
+                label: ביט
+                widget: object
+                fields:
+                  - { name: phone, label: "מספר לביט", widget: string }
+                  - { name: link, label: "קישור תשלום ביט (https, אופציונלי)", widget: string, required: false }
+              - name: paybox
+                label: PayBox
+                widget: object
+                fields:
+                  - { name: link, label: "קישור PayBox (https)", widget: string }
+              - name: bank
+                label: העברה בנקאית
+                widget: object
+                fields:
+                  - { name: bankName, label: שם הבנק, widget: string }
+                  - { name: bankNumber, label: מספר בנק, widget: string }
+                  - { name: branch, label: סניף, widget: string }
+                  - { name: account, label: מספר חשבון, widget: string }
+                  - { name: beneficiary, label: שם המוטב, widget: string }
+          - name: location
+            label: מיקום לחישוב הזמנים
+            widget: object
+            fields:
+              - { name: name, label: שם העיר, widget: string }
+              - { name: latitude, label: קו רוחב, widget: number, value_type: float }
+              - { name: longitude, label: קו אורך, widget: number, value_type: float }
+              - { name: hebcalCity, label: "שם העיר באנגלית (hebcal, למשל Tel Aviv / Jerusalem / Haifa)", widget: string, required: false }
+              - { name: candleLightingMins, label: "הדלקת נרות – דקות לפני השקיעה (ריק = לפי מנהג העיר)", widget: number, value_type: int, required: false }
+          - { name: season, label: "קיץ/חורף", widget: select, options: [{ label: "אוטומטי (שעון קיץ)", value: auto }, { label: קיץ, value: summer }, { label: חורף, value: winter }] }
+
+  # ---- טקסטים של העמודים הקיימים ----
+  - name: texts
+    label: טקסטים באתר
+    editor: { preview: false }
+    files:
+      - name: home
+        label: "דף הבית"
+        file: assets/data/content/home.json
+        format: json
+        fields:
+          - { name: heroPre, label: "כותרת – חלק ראשון", widget: string }
+          - { name: heroName, label: "כותרת – שם בית הכנסת (בזהב)", widget: string }
+          - { name: heroLead, label: "משפט פתיחה", widget: string }
+          - { name: btnTimes, label: "כפתור זמני תפילות", widget: string }
+          - { name: btnDonate, label: "כפתור תרומה", widget: string }
+          - { name: widgetTitle, label: "כותרת ווידג׳ט הזמנים", widget: string }
+          - { name: aboutBadge, label: "תגית", widget: string }
+          - { name: aboutTitle, label: "כותרת אודות", widget: string }
+          - { name: aboutBody, label: "טקסט אודות ({years} = מספר השנים מאז הייסוד)", widget: markdown, buttons: [bold, link, heading-two, heading-three, bulleted-list, numbered-list], editor_components: [image], modes: [rich_text, raw] }
+          - { name: aboutQuote, label: "ציטוט", widget: string }
+          - { name: actKicker, label: "כותרת משנה", widget: string }
+          - { name: actTitle, label: "כותרת פעילות", widget: string }
+          - { name: actIntro, label: "הסבר", widget: string }
+          - { name: kollelTitle, label: "כולל – כותרת", widget: string }
+          - { name: kollelBody, label: "כולל – תיאור", widget: text }
+          - { name: lessonsTitle, label: "שיעורים – כותרת", widget: string }
+          - { name: lessonsBody, label: "שיעורים – תיאור", widget: text }
+          - { name: lessonsSummer, label: "שיעורים – קיץ", widget: string }
+          - { name: lessonsWinter, label: "שיעורים – חורף", widget: string }
+          - { name: wedTitle, label: "יום רביעי – כותרת", widget: string }
+          - { name: wedBody, label: "יום רביעי – תיאור", widget: text }
+          - { name: contactKicker, label: "כותרת משנה", widget: string }
+          - { name: contactTitle, label: "כותרת צור קשר", widget: string }
+          - { name: addressTitle, label: "כתובת – כותרת", widget: string }
+          - { name: donateTitle, label: "תרומות – כותרת", widget: string }
+          - { name: donateBody, label: "תרומות – טקסט", widget: text }
+          - { name: donateBtn, label: "תרומות – כפתור", widget: string }
+      - name: common
+        label: "משותף (כותרת תחתונה)"
+        file: assets/data/content/common.json
+        format: json
+        fields:
+          - { name: footerAbout, label: "תיאור קצר בכותרת התחתונה", widget: text }
+          - { name: footerNote, label: "הערה בתחתית העמוד", widget: string }
+      - name: donate
+        label: "עמוד תרומות"
+        file: assets/data/content/donate.json
+        format: json
+        fields:
+          - { name: title, label: "כותרת ראשית", widget: string }
+          - { name: lead, label: "משפט פתיחה", widget: string }
+          - { name: bitTitle, label: "ביט – כותרת", widget: string }
+          - { name: payboxTitle, label: "PayBox – כותרת", widget: string }
+          - { name: bankTitle, label: "בנק – כותרת", widget: string }
+          - { name: note, label: "הערה בתחתית עמוד התרומות", widget: markdown, buttons: [bold, link, heading-two, heading-three, bulleted-list, numbered-list], editor_components: [image], modes: [rich_text, raw] }
+          - { name: payboxBody, label: "PayBox – תיאור", widget: text }
+      - name: times
+        label: "עמוד זמני תפילות"
+        file: assets/data/content/times.json
+        format: json
+        fields:
+          - { name: title, label: "כותרת העמוד", widget: string }
+          - { name: zmanimTitle, label: "כותרת זמני היום", widget: string }
+          - { name: shabbatBadge, label: "תגית השבת הקרובה", widget: string }
+          - { name: weekKicker, label: "כותרת משנה", widget: string }
+          - { name: weekTitle, label: "כותרת לוח שבועי", widget: string }
+          - { name: rulesNote, label: "הסבר כללי החישוב", widget: text }
+      - name: accessibility
+        label: "הצהרת נגישות"
+        file: assets/data/content/accessibility.json
+        format: json
+        fields:
+          - { name: title, label: "כותרת ראשית", widget: string }
+          - { name: lead, label: "משפט פתיחה", widget: string }
+          - { name: intro, label: "פתיחה", widget: markdown, buttons: [bold, link, heading-two, heading-three, bulleted-list, numbered-list], editor_components: [image], modes: [rich_text, raw] }
+          - { name: done, label: "מה עשינו", widget: markdown, buttons: [bold, link, heading-two, heading-three, bulleted-list, numbered-list], editor_components: [image], modes: [rich_text, raw] }
+          - { name: toolbar, label: "תפריט הנגישות", widget: markdown, buttons: [bold, link, heading-two, heading-three, bulleted-list, numbered-list], editor_components: [image], modes: [rich_text, raw] }
+          - { name: limits, label: "הסתייגויות", widget: markdown, buttons: [bold, link, heading-two, heading-three, bulleted-list, numbered-list], editor_components: [image], modes: [rich_text, raw] }
+          - { name: physical, label: "נגישות פיזית בבית הכנסת", widget: markdown, buttons: [bold, link, heading-two, heading-three, bulleted-list, numbered-list], editor_components: [image], modes: [rich_text, raw] }
+          - { name: feedback, label: "פניות", widget: markdown, buttons: [bold, link, heading-two, heading-three, bulleted-list, numbered-list], editor_components: [image], modes: [rich_text, raw] }
+          - { name: coordName, label: "רכז נגישות – שם", widget: string }
+          - { name: coordEmail, label: "רכז נגישות – דוא״ל (אופציונלי)", widget: string }
+          - { name: statementDate, label: "תאריך עדכון ההצהרה", widget: string }
+          - { name: lastAudit, label: "תאריך בדיקת הנגישות האחרונה", widget: string }
+          - { name: coordPhone, label: "רכז נגישות – טלפון", widget: string }
+
+  # ---- עמודים כלליים: נוצרים מהתבנית page.html?p=<slug> ונוספים אוטומטית לתפריט ----
+  - name: pages
+    label: עמודים נוספים
+    editor: { preview: false }
+    files:
+      - name: pages
+        label: כל העמודים הנוספים
+        file: assets/data/pages.json
+        format: json
+        fields:
+          - name: pages
+            label: עמודים
+            label_singular: עמוד
+            widget: list
+            summary: "{{fields.title}} ({{fields.slug}})"
+            fields:
+              - { name: title, label: כותרת העמוד, widget: string }
+              - { name: slug, label: "כתובת (אותיות אנגליות קטנות, ספרות ומקף)", widget: string, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', "לדוגמה: high-holidays"] }
+              - { name: nav, label: הצגה בתפריט, widget: boolean, default: true }
+              - { name: order, label: סדר בתפריט, widget: number, value_type: int, default: 10, required: false }
+              - { name: description, label: "תקציר (מוצג מתחת לכותרת ובתיאור לחיפוש)", widget: text, required: false }
+              - { name: body, label: תוכן, widget: markdown, buttons: [bold, link, heading-two, heading-three, bulleted-list, numbered-list], editor_components: [image], modes: [rich_text, raw], hint: "לתמונות יש למלא טקסט חלופי (alt) לטובת נגישות" }
+              - name: files
+                label: קבצים להורדה
+                label_singular: קובץ
+                widget: list
+                required: false
+                fields:
+                  - { name: title, label: שם הקובץ לתצוגה, widget: string }
+                  - { name: file, label: קובץ, widget: file }

@@ -1,0 +1,44 @@
+{
+  "address": "[כתובת תתעדכן]",
+  "mapsQuery": "",
+  "contacts": [
+    {
+      "name": "הרב אליהו שליט\"א",
+      "role": "רב בית הכנסת",
+      "phone": "054-8444083",
+      "intl": "972548444083",
+      "whatsapp": false
+    },
+    {
+      "name": "זוהר דוך",
+      "role": "גבאות ומידע",
+      "phone": "058-4464368",
+      "intl": "972584464368",
+      "whatsapp": true
+    }
+  ],
+  "donate": {
+    "bit": {
+      "phone": "[יעודכן]",
+      "link": ""
+    },
+    "paybox": {
+      "link": "[יעודכן]"
+    },
+    "bank": {
+      "bankName": "בנק הפועלים",
+      "bankNumber": "12",
+      "branch": "771",
+      "account": "418671",
+      "beneficiary": "בית הכנסת אגודת שלום"
+    }
+  },
+  "location": {
+    "name": "תל אביב",
+    "hebcalCity": "Tel Aviv",
+    "latitude": 32.0853,
+    "longitude": 34.7818,
+    "candleLightingMins": null
+  },
+  "season": "auto"
+}
